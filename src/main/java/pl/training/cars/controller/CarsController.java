@@ -1,6 +1,5 @@
 package pl.training.cars.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import pl.training.cars.exceptions.ResourceNotFoundException;
 import pl.training.cars.model.Car;
 import pl.training.cars.model.Cars;
 
@@ -29,9 +28,19 @@ public class CarsController {
         return cars.getCars();
     }
     
-    @GetMapping("/byId/{id}")
+    @GetMapping("/{id}")
     public Car getCarById(@PathVariable(value = "id") Long id){
-    	 return cars.findById(id);
+    	try {
+    		if(cars.checkIfCarExists(id) == false) {
+    			throw new ResourceNotFoundException();
+    		}else {
+    			return cars.findById(id);
+    		} 		
+    	}catch(ResourceNotFoundException e) {
+    		System.out.println("Couldn't find car with id " + id);
+    	}
+    	
+    	return null;
     }
     
     @PostMapping("/add")
@@ -43,14 +52,29 @@ public class CarsController {
     
     @DeleteMapping("/delete/{id}")
     public String deleteCar(@PathVariable(value = "id") Long id) {
-    	cars.deleteCar(id);
-    	return "Deletion succeed";
+    	try {
+    		if(cars.checkIfCarExists(id) == false) {
+    			throw new ResourceNotFoundException();
+    		}else {
+    			cars.deleteCar(id);
+    			return "Deletion succeed";
+    		} 		
+    	}catch(ResourceNotFoundException e) {
+    		return "Couldn't find car with id " + id;
+    	} 	
     }
     
     @PutMapping("/update/{id}")
     public String updateCar(@PathVariable(value = "id") Long id, @RequestBody Car car) {
-    	cars.updateCar(id, car);
-    	
-    	return "Updating succeed";
+    	try {
+    		if(cars.checkIfCarExists(id) == false) {
+    			throw new ResourceNotFoundException();
+    		}else {
+    			cars.updateCar(id, car);
+    			return "Updating succeed";
+    		} 		
+    	}catch(ResourceNotFoundException e) {
+    		return "Couldn't find car with id " + id;
+    	}	
     }
 }

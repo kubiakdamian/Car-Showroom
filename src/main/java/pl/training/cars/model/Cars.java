@@ -58,4 +58,13 @@ public class Cars {
     		}
     	}
 	}
+	
+	public boolean checkIfCarExists(Long id) {
+		for(Car car : cars) {
+    		if(car.getId() == id) {
+    			return true;
+    		}
+    	}	
+		return false;
+	}
 }
