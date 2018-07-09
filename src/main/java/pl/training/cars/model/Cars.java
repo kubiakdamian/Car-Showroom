@@ -47,4 +47,15 @@ public class Cars {
     		}
     	}
 	}
+	
+	public void updateCar(Long id, Car newCar) {
+		for(Car car : cars) {
+    		if(car.getId() == id) {
+    			car.setModel(newCar.getModel());
+    			car.setBrand(newCar.getBrand());
+    			car.setHorsePower(newCar.getHorsePower());
+    			car.setAccelerationToHundred(newCar.getAccelerationToHundred());
+    		}
+    	}
+	}
 }

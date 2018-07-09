@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,5 +45,12 @@ public class CarsController {
     public String deleteCar(@PathVariable(value = "id") Long id) {
     	cars.deleteCar(id);
     	return "Deletion succeed";
+    }
+    
+    @PutMapping("/update/{id}")
+    public String updateCar(@PathVariable(value = "id") Long id, @RequestBody Car car) {
+    	cars.updateCar(id, car);
+    	
+    	return "Updating succeed";
     }
 }
