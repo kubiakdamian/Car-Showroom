@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 @Component
 public class Cars {
-	private List<Car> cars;
+	private static List<Car> cars;
 	
 	public Cars() {
 		cars = new ArrayList<>();
@@ -20,5 +20,13 @@ public class Cars {
 		cars.add(new Car("a4", "Audi", 125, 9.4));
 		cars.add(new Car("Yaris", "Toyota", 90, 12.4));
 		cars.add(new Car("Impreza", "Subaru", 320, 6.5));
+	}
+
+	public List<Car> getCars() {
+		return cars;
+	}
+	
+	public void addCar(Car car) {
+		cars.add(car);
 	}
 }
