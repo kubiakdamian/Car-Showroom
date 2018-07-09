@@ -26,7 +26,25 @@ public class Cars {
 		return cars;
 	}
 	
+	public Car findById(Long id) {
+		for(Car car : cars) {
+    		if(car.getId() == id) {
+    			return car;
+    		}
+    	}
+		
+		return null;
+	}
+	
 	public void addCar(Car car) {
 		cars.add(car);
+	}
+	
+	public void deleteCar(Long id) {
+		for(Car car : cars) {
+    		if(car.getId() == id) {
+    			cars.remove(cars.indexOf(car));
+    		}
+    	}
 	}
 }
