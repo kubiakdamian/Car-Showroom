@@ -23,7 +23,7 @@ public class CarsController {
 	@Autowired
     private Cars cars;
 
-    @GetMapping("/all")
+    @GetMapping()
     public List<Car> getAllCars(){
         return cars.getCars();
     }
@@ -43,14 +43,14 @@ public class CarsController {
     	return null;
     }
     
-    @PostMapping("/add")
+    @PostMapping()
     public String addCar(@RequestBody Car car){
         cars.addCar(car);
         
         return "New car added with id: " + car.getId();
     }
     
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public String deleteCar(@PathVariable(value = "id") Long id) {
     	try {
     		if(cars.checkIfCarExists(id) == false) {
@@ -64,7 +64,7 @@ public class CarsController {
     	} 	
     }
     
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public String updateCar(@PathVariable(value = "id") Long id, @RequestBody Car car) {
     	try {
     		if(cars.checkIfCarExists(id) == false) {
