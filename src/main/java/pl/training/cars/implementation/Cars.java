@@ -1,4 +1,4 @@
-package pl.training.cars.model;
+package pl.training.cars.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import lombok.Data;
+import pl.training.cars.model.Car;
 
 @Data
 @Component
@@ -65,6 +66,14 @@ public class Cars {
     			return true;
     		}
     	}	
+		return false;
+	}
+	
+	public boolean checkIfDatabaseIsEmpty() {
+		if(cars.isEmpty()) {
+			return true;
+		}
+		
 		return false;
 	}
 }
