@@ -44,7 +44,8 @@ public class Cars {
 	public void deleteCar(Long id) {
 		for(Car car : cars) {
     		if(car.getId() == id) {
-    			cars.remove(cars.indexOf(car));
+    			int index = cars.indexOf(car);
+    			cars.remove(index);
     		}
     	}
 	}
