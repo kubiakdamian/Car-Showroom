@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import pl.training.cars.exceptions.ResourceNotFoundException;
 import pl.training.cars.implementation.Cars;
@@ -27,11 +28,10 @@ public class CarsController {
 	@Autowired
     private Cars cars;
 
+	@ApiOperation(value = "Find all cars", notes = "Returns all Cars")
     @ApiResponses(value = {
-	   @ApiResponse(code = 200,
-	      message = "Cars returned"),
-	   @ApiResponse(code = 204,
-	      message = "Cars not found")})
+	   @ApiResponse(code = 200, message = "Cars returned"),
+	   @ApiResponse(code = 204, message = "Cars not found")})
     @GetMapping()
     public ResponseEntity<List<Car>> getAllCars(){
     	try {
@@ -45,11 +45,10 @@ public class CarsController {
     	
     }
     
+	@ApiOperation(value = "Find Car by ID", notes = "Returns Car based on ID")
     @ApiResponses(value = {
-	   @ApiResponse(code = 200,
-	      message = "Found Car by specified ID"),
-	   @ApiResponse(code = 204,
-	      message = "Car not found")})
+	   @ApiResponse(code = 200, message = "Found Car by specified ID"),
+	   @ApiResponse(code = 204, message = "Car not found")})
     @GetMapping("/{id}")
     public ResponseEntity<Car> getCarById(@PathVariable(value = "id") Long id){
     	try {
@@ -63,9 +62,9 @@ public class CarsController {
     	}
     }
     
+	@ApiOperation(value = "Add a new car", notes = "Returns id of added car")
     @ApiResponses(value = {
-	   @ApiResponse(code = 200,
-	      message = "Car added successfully")})
+	   @ApiResponse(code = 200, message = "Car added successfully")})
     @PostMapping()
     public ResponseEntity<String> addCar(@RequestBody Car car){
         cars.addCar(car);
@@ -73,11 +72,10 @@ public class CarsController {
         return new ResponseEntity<String>("Added car with id " + car.getId(), HttpStatus.OK);
     }
     
+	@ApiOperation(value = "Delete a car", notes = "Returns success or id of car that couldn't be removed")
     @ApiResponses(value = {
-	   @ApiResponse(code = 200,
-	      message = "Car deleted successfully"),
-	   @ApiResponse(code = 204,
-	      message = "Car not found")})
+	   @ApiResponse(code = 200, message = "Car deleted successfully"),
+	   @ApiResponse(code = 204, message = "Car not found")})
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCar(@PathVariable(value = "id") Long id) {
     	try {
@@ -92,11 +90,10 @@ public class CarsController {
     	} 	
     }
     
+	@ApiOperation(value = "Update a car", notes = "Returns success or id of car that couldn't be removed")
     @ApiResponses(value = {
-	   @ApiResponse(code = 200,
-	      message = "Car updated successfully"),
-	   @ApiResponse(code = 204,
-	      message = "Car not found")})
+	   @ApiResponse(code = 200, message = "Car updated successfully"),
+	   @ApiResponse(code = 204, message = "Car not found")})
     @PutMapping("/{id}")
     public ResponseEntity<String> updateCar(@PathVariable(value = "id") Long id, @RequestBody Car car) {
     	try {
