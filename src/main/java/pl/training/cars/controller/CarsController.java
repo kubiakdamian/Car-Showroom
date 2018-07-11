@@ -3,6 +3,8 @@ package pl.training.cars.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,57 +26,55 @@ public class CarsController {
     private Cars cars;
 
     @GetMapping()
-    public List<Car> getAllCars(){
-        return cars.getCars();
+    public ResponseEntity<List<Car>> getAllCars(){
+        return new ResponseEntity<List<Car>>(cars.getCars(), HttpStatus.OK);
     }
     
     @GetMapping("/{id}")
-    public Car getCarById(@PathVariable(value = "id") Long id){
+    public ResponseEntity<Car> getCarById(@PathVariable(value = "id") Long id){
     	try {
-    		if(cars.checkIfCarExists(id) == false) {
+    		if(!cars.checkIfCarExists(id)) {
     			throw new ResourceNotFoundException();
     		}else {
-    			return cars.findById(id);
+    			return new ResponseEntity<Car>(cars.findById(id), HttpStatus.OK);
     		} 		
     	}catch(ResourceNotFoundException e) {
-    		System.out.println("Couldn't find car with id " + id);
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     	}
-    	
-    	return null;
     }
     
     @PostMapping()
-    public String addCar(@RequestBody Car car){
+    public ResponseEntity<String> addCar(@RequestBody Car car){
         cars.addCar(car);
         
-        return "New car added with id: " + car.getId();
+        return new ResponseEntity<String>("Added car with id " + car.getId(), HttpStatus.OK);
     }
     
     @DeleteMapping("/{id}")
-    public String deleteCar(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<String> deleteCar(@PathVariable(value = "id") Long id) {
     	try {
-    		if(cars.checkIfCarExists(id) == false) {
+    		if(!cars.checkIfCarExists(id)) {
     			throw new ResourceNotFoundException();
     		}else {
     			cars.deleteCar(id);
-    			return "Deletion succeed";
+    			return new ResponseEntity<String>("Success", HttpStatus.OK);
     		} 		
     	}catch(ResourceNotFoundException e) {
-    		return "Couldn't find car with id " + id;
+    		return new ResponseEntity<String>("Couldn't find car with id " + id, HttpStatus.NOT_FOUND);
     	} 	
     }
     
     @PutMapping("/{id}")
-    public String updateCar(@PathVariable(value = "id") Long id, @RequestBody Car car) {
+    public ResponseEntity<String> updateCar(@PathVariable(value = "id") Long id, @RequestBody Car car) {
     	try {
-    		if(cars.checkIfCarExists(id) == false) {
+    		if(!cars.checkIfCarExists(id)) {
     			throw new ResourceNotFoundException();
     		}else {
     			cars.updateCar(id, car);
-    			return "Updating succeed";
+    			return new ResponseEntity<String>("Success", HttpStatus.OK);
     		} 		
     	}catch(ResourceNotFoundException e) {
-    		return "Couldn't find car with id " + id;
+    		return new ResponseEntity<String>("Couldn't find car with id " + id, HttpStatus.NOT_FOUND);
     	}	
     }
 }
