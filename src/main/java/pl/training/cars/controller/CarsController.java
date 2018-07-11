@@ -30,7 +30,7 @@ public class CarsController {
     @ApiResponses(value = {
 	   @ApiResponse(code = 200,
 	      message = "Cars returned"),
-	   @ApiResponse(code = 404,
+	   @ApiResponse(code = 204,
 	      message = "Cars not found")})
     @GetMapping()
     public ResponseEntity<List<Car>> getAllCars(){
@@ -40,7 +40,7 @@ public class CarsController {
         	}
             return new ResponseEntity<List<Car>>(cars.getCars(), HttpStatus.OK);
     	}catch (ResourceNotFoundException e) {
-    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
     	
     }
@@ -48,7 +48,7 @@ public class CarsController {
     @ApiResponses(value = {
 	   @ApiResponse(code = 200,
 	      message = "Found Car by specified ID"),
-	   @ApiResponse(code = 404,
+	   @ApiResponse(code = 204,
 	      message = "Car not found")})
     @GetMapping("/{id}")
     public ResponseEntity<Car> getCarById(@PathVariable(value = "id") Long id){
@@ -59,7 +59,7 @@ public class CarsController {
     			return new ResponseEntity<Car>(cars.findById(id), HttpStatus.OK);
     		} 		
     	}catch(ResourceNotFoundException e) {
-    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     	}
     }
     
@@ -76,7 +76,7 @@ public class CarsController {
     @ApiResponses(value = {
 	   @ApiResponse(code = 200,
 	      message = "Car deleted successfully"),
-	   @ApiResponse(code = 404,
+	   @ApiResponse(code = 204,
 	      message = "Car not found")})
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCar(@PathVariable(value = "id") Long id) {
@@ -88,14 +88,14 @@ public class CarsController {
     			return new ResponseEntity<String>("Success", HttpStatus.OK);
     		} 		
     	}catch(ResourceNotFoundException e) {
-    		return new ResponseEntity<String>("Couldn't find car with id " + id, HttpStatus.NOT_FOUND);
+    		return new ResponseEntity<String>("Couldn't find car with id " + id, HttpStatus.NO_CONTENT);
     	} 	
     }
     
     @ApiResponses(value = {
 	   @ApiResponse(code = 200,
 	      message = "Car updated successfully"),
-	   @ApiResponse(code = 404,
+	   @ApiResponse(code = 204,
 	      message = "Car not found")})
     @PutMapping("/{id}")
     public ResponseEntity<String> updateCar(@PathVariable(value = "id") Long id, @RequestBody Car car) {
@@ -107,7 +107,7 @@ public class CarsController {
     			return new ResponseEntity<String>("Success", HttpStatus.OK);
     		} 		
     	}catch(ResourceNotFoundException e) {
-    		return new ResponseEntity<String>("Couldn't find car with id " + id, HttpStatus.NOT_FOUND);
+    		return new ResponseEntity<String>("Couldn't find car with id " + id, HttpStatus.NO_CONTENT);
     	}	
     }
 }
